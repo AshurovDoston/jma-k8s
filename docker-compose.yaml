@@ -1,0 +1,101 @@
+version: "3.9"
+services:
+  jma-users:
+    container_name: jma-users
+    image: crasoftinc/users:latest
+    ports:
+      - "0:0"
+    restart: always
+    network_mode: host
+
+  jma-discovery:
+    container_name: jma-discovery
+    image: crasoftinc/discovery:latest
+    ports:
+      - "8888:8888"
+    restart: always
+    network_mode: host
+  
+  jma-gateway:
+    container_name: jma-gateway
+    image: crasoftinc/gateway:latest
+    ports:
+      - "8080:8080"
+    restart: always
+    network_mode: host
+
+  jma-media:
+    container_name: jma-media
+    image: crasoftinc/media:latest
+    ports:
+     - "0:0"
+    restart: always
+    network_mode: host
+
+  jma-service-history:
+    container_name: jma-service-history
+    image: crasoftinc/service-history:latest
+    ports:
+     - "0:0"
+    restart: always
+    network_mode: host
+
+  jma-trucks:
+    container_name: jma-trucks
+    image: crasoftinc/trucks:latest
+    ports: 
+     - "0:0"
+    restart: always
+    network_mode: host
+ 
+  jma-action-history:
+    container_name: jma-action-history
+    image: crasoftinc/action-history:latest
+    ports:
+     - "0:0"
+    restart: always
+    network_mode: host
+
+  jma-trailers:
+    container_name: jma-trailers
+    image: crasoftinc/trailers:latest
+    ports:
+     - "0:0"
+    restart: always
+    network_mode: host
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=crasoftinc
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo-data:/data/db
+    restart: always
+    network_mode: host
+    command: mongod
+ 
+  redis:
+    container_name: redis
+    image: redis
+    command: redis-server --requirepass jaxathon
+    ports:
+      - "6379:6379"
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    restart: always
+    network_mode: host
+
+networks: 
+  default:
+    driver: host
+volumes: 
+  mongo-data:
+    driver: local 
