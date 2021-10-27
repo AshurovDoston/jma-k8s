@@ -37,31 +37,31 @@ spec:
     app: jma-users
   ports:
   - protocol: TCP
-    port: 80
+    port: 8080
     targetPort: 8080
 ---
-### Gateway ###
+### JMA-DISCOVERY ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-discovery
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-discovery
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-discovery
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-discovery
+          image: crasoftinc/discovery:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 8888
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -72,38 +72,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-discovery
 spec:
   type: LoadBalancer
   selector:
-    app: gateway
+    app: jma-discovery
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 8888
+    targetPort: 8888
 ---
-### Gateway ###
+### JMA-MEDIA ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-media
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-media
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-media
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-media
+          image: crasoftinc/media:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 9090
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -114,38 +114,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-media
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: jma-media
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 9090
+    targetPort: 9090
 ---
-### Gateway ###
+### JMA-SERVICE-HISTORY ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-service-history
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-service-history
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-service-history
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-service-history
+          image: crasoftinc/service-history:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 3550
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -156,38 +156,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-service-history
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: jma-service-history
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 3550
+    targetPort: 3550
 ---
-### Gateway ###
+### JMA-TRUCKS ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-trucks
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-trucks
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-trucks
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-trucks
+          image: crasoftinc/trucks:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 8000
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -198,38 +198,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-trucks
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: jma-trucks
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 8000
+    targetPort: 8000
 ---
-### Gateway ###
+### ACTION-HISTORY ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-action-history
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-action-history
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-action-history
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-action-history
+          image: crasoftinc/action-history:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 7000
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -240,38 +240,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-action-history
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: jma-action-history
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 7000
+    targetPort: 7000
 ---
-### Gateway ###
+### JMA-TRAILERS ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: jma-trailers
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: jma-trailers
   template:
     metadata:
       labels:
-        app: gateway
+        app: jma-trailers
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: jma-trailers
+          image: crasoftinc/trailers:latest
           ports:
-          - containerPort: 8080
+          - containerPort: 9555
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -282,38 +282,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: jma-trailers
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: jma-trailers
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 9555
+    targetPort: 9555
 ---
-### Gateway ###
+### MONGO ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: mongodb
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: mongodb
   template:
     metadata:
       labels:
-        app: gateway
+        app: mongodb
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: mongodb
+          image: mongo
           ports:
-          - containerPort: 8080
+          - containerPort: 27017
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -324,38 +324,38 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: mongodb
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: mongodb
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 27017
+    targetPort: 27017
 ---
-### Gateway ###
+### REDIS ###
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: redis
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: gateway
+      app: redis
   template:
     metadata:
       labels:
-        app: gateway
+        app: redis
     spec:
       imagePullSecrets:
       - name: my-registry-key
       containers:
-        - name: gateway
-          image: crasoftinc/gateway:latest
+        - name: redis
+          image: redis
           ports:
-          - containerPort: 8080
+          - containerPort: 6359
           # env:
           # {{- range .Values.containerEnvVars}}
           # - name: {{ .name }}
@@ -366,15 +366,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: redis
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: gateway
+    app: redis
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 6359
+    targetPort: 6359
 ---
 ### Gateway ###
 apiVersion: apps/v1
